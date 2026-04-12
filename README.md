@@ -132,7 +132,7 @@ Fabric Carpet 团队提供的扩展框架。
 
 ### 构建步骤
 ```bash
-git clone https://github.com/yourname/eun-carpet-addition.git
+git clone https://github.com/zhang132212/eun-carpet-addition.git
 cd eun-carpet-addition
 ./gradlew build
 
