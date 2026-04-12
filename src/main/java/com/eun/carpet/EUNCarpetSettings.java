@@ -41,4 +41,7 @@ public class EUNCarpetSettings {
 
     @Rule(categories = {RuleCategory.FEATURE, EUN}, options = {"false", "true", "0", "1", "2", "3", "4"})
     public static String packetEnabled = "true";
+
+    @Rule(categories = {RuleCategory.FEATURE, EUN}, options = {"false", "true", "0", "1", "2", "3", "4"})
+    public static String presetEnabled = "true";
 }

@@ -35,5 +35,8 @@
   "carpet.rule.packetEnabled.name": "假人自动打包",
   "carpet.rule.packetEnabled.desc": "启用 /eun packet 命令，可为假人配置自动打包功能",
 
-  "carpet.category.eun": "EUN 扩展"
+  "carpet.category.eun": "EUN 扩展",
+
+  "carpet.rule.presetEnabled.name": "规则预设管理",
+  "carpet.rule.presetEnabled.desc": "启用 /eun preset 命令，可批量应用、禁用、设置默认规则预设"
 }

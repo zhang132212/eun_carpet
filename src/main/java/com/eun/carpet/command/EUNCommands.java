@@ -7,6 +7,7 @@ import com.eun.carpet.highlight.HighlightPayload;
 import com.eun.carpet.pearlcannon.PearlCannonManager;
 import com.eun.carpet.pearlcannon.PearlCannonScheme;
 import com.eun.carpet.packet.PacketCommand;
+import com.eun.carpet.preset.PresetCommand;
 import com.mojang.authlib.GameProfile;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.BoolArgumentType;
@@ -56,8 +57,12 @@ public class EUNCommands {
         if (!EUNCarpetSettings.packetEnabled.equals("false")) {
             root.then(PacketCommand.build());
         }
+        if (!EUNCarpetSettings.presetEnabled.equals("false")) {
+            root.then(PresetCommand.build());
+        }
 
         dispatcher.register(root);
+
     }
 
     private static int executeReloadAll(CommandContext<CommandSourceStack> ctx) {

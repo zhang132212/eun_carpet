@@ -5,6 +5,7 @@ import com.eun.carpet.aioptimization.AIOptimizationConfig;
 import com.eun.carpet.optimization.EntityOptimizationConfig;
 import com.eun.carpet.packet.PacketManager;
 import com.eun.carpet.pearlcannon.PearlCannonManager;
+import com.eun.carpet.preset.PresetManager;
 import net.fabricmc.loader.api.FabricLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,17 +21,20 @@ public class EUNConfigManager {
         EntityOptimizationConfig.load();
         AIOptimizationConfig.load();
         PearlCannonManager.getInstance().reload();
-        PacketManager.load();                       // 打包配置加载
-        // 其他需要配置加载的功能可在此添加
+        PacketManager.load();
+        PresetManager.load();  // 首次加载
         LOGGER.info("All EUN configurations loaded.");
     }
 
     public static void reloadAllConfigs() {
-        loadAllConfigs();
-        // 通知各管理器配置已更新
+        EntityOptimizationConfig.load();
+        AIOptimizationConfig.load();
+        PearlCannonManager.getInstance().reload();
+        PacketManager.load();
+        PresetManager.reload(); // 重载预设
         EntityOptimizationConfig.notifyUpdated();
         AIOptimizationConfig.notifyUpdated();
-        // PacketManager 和 PearlCannonManager 在 load 时已刷新
+        LOGGER.info("All EUN configurations reloaded.");
     }
 
     private static void ensureDirectories() {
