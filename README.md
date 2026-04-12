@@ -139,7 +139,6 @@
 规则值 `"true"`/`"false"` 或 `"0"`-`"4"` 表示所需 OP 等级（`"0"` 表示所有玩家可用）。
 
 ---
-
 ## 🛠️ 开发与构建
 
 ### 环境要求
@@ -160,5 +159,3 @@ cd eun_carpet
 
 首次运行后会自动生成 Minecraft Client 运行配置，可在 VM options 中添加开发账号参数：
 -Dfabric.development.username=你的邮箱 -Dfabric.development.lang=zh_cn
-📄 许可
-本项目采用 MIT License。
