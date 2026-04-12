@@ -1,0 +1,39 @@
+{
+  "carpet.rule.fakePlayerPersistence.name": "假人驻留",
+  "carpet.rule.fakePlayerPersistence.desc": "启用假人驻留功能（服务器重启后自动召唤已记录的假人）",
+
+  "carpet.rule.fakePlayerActionSaving.name": "假人动作保存",
+  "carpet.rule.fakePlayerActionSaving.desc": "启用假人动作保存功能（每30秒检测并记录假人的持续动作和状态，需开启假人驻留）",
+
+  "carpet.rule.fakePlayerPrefix.name": "假人前缀",
+  "carpet.rule.fakePlayerPrefix.desc": "为假人添加统一前缀以在tab列表中区分",
+
+  "carpet.rule.entityOptimizationEnabled.name": "实体堆叠渲染优化",
+  "carpet.rule.entityOptimizationEnabled.desc": "启用大量同位置同类型实体渲染优化，提高FPS。详细参数请见配置文件entity_optimization.json",
+
+  "carpet.rule.pearlCannonEnabled.name": "珍珠炮编码工具",
+  "carpet.rule.pearlCannonEnabled.desc": "启用珍珠炮二进制编码计算命令 /eun pearlCannon",
+
+  "carpet.rule.globalScoreboardEnabled.name": "全局计分板",
+  "carpet.rule.globalScoreboardEnabled.desc": "启用全局计分板功能，显示各玩家统计数据排名",
+
+  "carpet.rule.highlightEnabled.name": "生物实体/掉落物高亮",
+  "carpet.rule.highlightEnabled.desc": "启用 /eun highlight 命令，可为指定玩家高亮周围的物品或生物",
+
+  "carpet.rule.aiOptimizationEnabled.name": "无碰撞堆叠实体AI优化(效果不咋样)",
+  "carpet.rule.aiOptimizationEnabled.desc": "启用大量同位置同类型实体在无碰撞环境下的AI优化，详细参数见ai_optimization.json",
+
+  "carpet.rule.craftableInvisibleItemFrames.name": "可合成隐形展示框",
+  "carpet.rule.craftableInvisibleItemFrames.desc": "启用后，可用8个展示框+1个紫水晶合成8个隐形展示框",
+
+  "carpet.rule.autoTotemEquip.name": "自动装备图腾",
+  "carpet.rule.autoTotemEquip.desc": "当玩家即将死亡时，自动从背包或容器中取出不死图腾并装备到副手",
+
+  "carpet.rule.suppressMagmaCubeInNetherWastes.name": "禁止下界荒地生成岩浆怪",
+  "carpet.rule.suppressMagmaCubeInNetherWastes.desc": "开启后，岩浆怪不会在下界荒地自然生成（刷怪笼生成的仍会保留）",
+
+  "carpet.rule.packetEnabled.name": "假人自动打包",
+  "carpet.rule.packetEnabled.desc": "启用 /eun packet 命令，可为假人配置自动打包功能",
+
+  "carpet.category.eun": "EUN 扩展"
+}

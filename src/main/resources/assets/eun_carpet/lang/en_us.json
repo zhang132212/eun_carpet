@@ -1,0 +1,39 @@
+{
+  "carpet.rule.fakePlayerPersistence.name": "Fake Player Persistence",
+  "carpet.rule.fakePlayerPersistence.desc": "Automatically summon recorded fake players after server restart.",
+
+  "carpet.rule.fakePlayerActionSaving.name": "Fake Player Action Saving",
+  "carpet.rule.fakePlayerActionSaving.desc": "Record fake players' ongoing actions every 30 seconds (requires Fake Player Persistence).",
+
+  "carpet.rule.fakePlayerPrefix.name": "Fake Player Prefix",
+  "carpet.rule.fakePlayerPrefix.desc": "Add a unified prefix to fake players in the tab list.",
+
+  "carpet.rule.entityOptimizationEnabled.name": "Entity Stacking Render Optimization",
+  "carpet.rule.entityOptimizationEnabled.desc": "Optimize rendering for many identical entities at the same position to improve FPS. Details in entity_optimization.json.",
+
+  "carpet.rule.pearlCannonEnabled.name": "Pearl Cannon Encoder",
+  "carpet.rule.pearlCannonEnabled.desc": "Enable /eun pearlCannon command for binary encoding calculations.",
+
+  "carpet.rule.globalScoreboardEnabled.name": "Global Scoreboard",
+  "carpet.rule.globalScoreboardEnabled.desc": "Display player statistics rankings on the scoreboard.",
+
+  "carpet.rule.highlightEnabled.name": "Personal Highlight",
+  "carpet.rule.highlightEnabled.desc": "Enable /eun highlight command to highlight items or mobs around a player.",
+
+  "carpet.rule.aiOptimizationEnabled.name": "Collision-less Stacked Entity AI Optimization",
+  "carpet.rule.aiOptimizationEnabled.desc": "Skip AI for stacked entities in collision-free environments (e.g. scaffolding/vines) to reduce MSPT. Details in ai_optimization.json.",
+
+  "carpet.rule.craftableInvisibleItemFrames.name": "Craftable Invisible Item Frames",
+  "carpet.rule.craftableInvisibleItemFrames.desc": "Craft 8 invisible item frames using 8 item frames + 1 amethyst shard.",
+
+  "carpet.rule.autoTotemEquip.name": "Auto Totem Equip",
+  "carpet.rule.autoTotemEquip.desc": "Automatically equip a Totem of Undying from inventory/containers when about to die.",
+
+  "carpet.rule.suppressMagmaCubeInNetherWastes.name": "Suppress Magma Cube Spawns in Nether Wastes",
+  "carpet.rule.suppressMagmaCubeInNetherWastes.desc": "Prevent magma cubes from spawning naturally in Nether Wastes (spawner spawns remain).",
+
+  "carpet.rule.packetEnabled.name": "Fake Player Auto-Packing",
+  "carpet.rule.packetEnabled.desc": "Enable /eun packet command to configure auto-packing for fake players.",
+
+  "carpet.category.eun": "EUN Extension"
+}
