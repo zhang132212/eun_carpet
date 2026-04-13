@@ -171,10 +171,28 @@ public class EUNCarpetExtension implements CarpetExtension {
 
     @Override
     public Map<String, String> canHasTranslations(String lang) {
-        if (!"zh_cn".equals(lang)) {
+        if ("zh_cn".equals(lang)) {
+            return loadTranslationsFromJson("/assets/eun_carpet/lang/zh_cn.json");
+        } else if ("en_us".equals(lang)) {
+            return loadTranslationsFromJson("/assets/eun_carpet/lang/en_us.json");
+        }
+        return Collections.emptyMap();
+    }
+
+    private Map<String, String> loadTranslationsFromJson(String resourcePath) {
+        try (InputStream inputStream = EUNCarpetExtension.class.getResourceAsStream(resourcePath)) {
+            if (inputStream == null) {
+                LOGGER.warn("Translation file not found: {}", resourcePath);
+                return Collections.emptyMap();
+            }
+            String json = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
+            Gson gson = new Gson();
+            Type type = new TypeToken<Map<String, String>>(){}.getType();
+            return gson.fromJson(json, type);
+        } catch (Exception e) {
+            LOGGER.error("Failed to load translations from {}", resourcePath, e);
             return Collections.emptyMap();
         }
-        return loadTranslationsFromJson();
     }
 
     private Map<String, String> loadTranslationsFromJson() {

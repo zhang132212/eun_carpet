@@ -35,5 +35,8 @@
   "carpet.rule.packetEnabled.name": "Fake Player Auto-Packing",
   "carpet.rule.packetEnabled.desc": "Enable /eun packet command to configure auto-packing for fake players.",
 
+  "carpet.rule.presetEnabled.name": "Rule Preset Management",
+  "carpet.rule.presetEnabled.desc": "Enable /eun preset command to batch apply, disable, or set default rule presets.",
+
   "carpet.category.eun": "EUN Extension"
 }
