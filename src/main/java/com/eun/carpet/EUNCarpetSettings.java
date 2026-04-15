@@ -44,4 +44,15 @@ public class EUNCarpetSettings {
 
     @Rule(categories = {RuleCategory.FEATURE, EUN}, options = {"false", "true", "0", "1", "2", "3", "4"})
     public static String presetEnabled = "true";
+
+    @Rule(categories = {RuleCategory.FEATURE, EUN})
+    public static boolean sharedCommandsEnabled = true;
+
+    @Rule(categories = {RuleCategory.COMMAND, EUN}, options = {"true", "false", "ops", "0", "1", "2", "3", "4"})
+    public static String sharedCommandManagePermission = "ops";
+
+    // 已移除 sharedCommandBlacklist 规则
+
+    @Rule(categories = {RuleCategory.COMMAND, EUN})
+    public static int sharedCommandMaxLength = 256;
 }

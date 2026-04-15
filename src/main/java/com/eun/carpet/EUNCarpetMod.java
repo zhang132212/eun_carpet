@@ -30,5 +30,7 @@ public class EUNCarpetMod implements ModInitializer {
                 InvisibleFrameManager.getInstance().registerRecipe(server);
             }
         });
+
+
     }
 }

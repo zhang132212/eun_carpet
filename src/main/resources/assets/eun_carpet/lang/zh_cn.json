@@ -38,5 +38,17 @@
   "carpet.category.eun": "EUN 扩展",
 
   "carpet.rule.presetEnabled.name": "规则预设管理",
-  "carpet.rule.presetEnabled.desc": "启用 /eun preset 命令，可批量应用、禁用、设置默认规则预设"
+  "carpet.rule.presetEnabled.desc": "启用 /eun preset 命令，可批量应用、禁用、设置默认规则预设",
+
+  "carpet.rule.sharedCommandsEnabled.name": "共享命令",
+  "carpet.rule.sharedCommandsEnabled.desc": "启用玩家间共享自定义命令。允许通过 Command-GUI 模组上传、编辑和删除命令。",
+
+  "carpet.rule.sharedCommandManagePermission.name": "共享命令管理权限",
+  "carpet.rule.sharedCommandManagePermission.desc": "管理（编辑/删除）其他玩家共享命令所需的权限。'true' = 所有玩家，'false' = 无权限，数字 = OP等级（0-4）。",
+
+  "carpet.rule.sharedCommandBlacklist.name": "共享命令黑名单",
+  "carpet.rule.sharedCommandBlacklist.desc": "逗号分隔的命令关键词列表，禁止出现在共享命令中（例如 'op,ban,stop'）。",
+
+  "carpet.rule.sharedCommandMaxLength.name": "共享命令最大长度",
+  "carpet.rule.sharedCommandMaxLength.desc": "共享命令中单条命令允许的最大字符数。"
 }

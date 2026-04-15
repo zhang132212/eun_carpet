@@ -38,5 +38,17 @@
   "carpet.rule.presetEnabled.name": "Rule Preset Management",
   "carpet.rule.presetEnabled.desc": "Enable /eun preset command to batch apply, disable, or set default rule presets.",
 
-  "carpet.category.eun": "EUN Extension"
+  "carpet.category.eun": "EUN Extension",
+
+  "carpet.rule.sharedCommandsEnabled.name": "Shared Commands",
+  "carpet.rule.sharedCommandsEnabled.desc": "Enable sharing of custom commands between players. Allows uploading, editing, and deleting commands via the Command-GUI mod.",
+
+  "carpet.rule.sharedCommandManagePermission.name": "Shared Command Manage Permission",
+  "carpet.rule.sharedCommandManagePermission.desc": "Permission level required to manage (edit/delete) other players' shared commands. 'true' = all players, 'false' = none, number = OP level (0-4).",
+
+  "carpet.rule.sharedCommandBlacklist.name": "Shared Command Blacklist",
+  "carpet.rule.sharedCommandBlacklist.desc": "Comma-separated list of command keywords that are forbidden in shared commands (e.g. 'op,ban,stop').",
+
+  "carpet.rule.sharedCommandMaxLength.name": "Shared Command Max Length",
+  "carpet.rule.sharedCommandMaxLength.desc": "Maximum allowed length (in characters) for a single command line in a shared command."
 }
