@@ -1,6 +1,7 @@
 package com.eun.carpet.command;
 
 import com.eun.carpet.EUNCarpetSettings;
+import com.eun.carpet.commandgui.ServerCommandConfigManager;
 import com.eun.carpet.config.EUNConfigManager;
 import com.eun.carpet.highlight.HighlightManager;
 import com.eun.carpet.highlight.HighlightPayload;
@@ -67,6 +68,8 @@ public class EUNCommands {
 
     private static int executeReloadAll(CommandContext<CommandSourceStack> ctx) {
         EUNConfigManager.reloadAllConfigs();
+        // /eun reload 执行后立即重载配置文件并推送给所有在线玩家
+        ServerCommandConfigManager.reloadAndPush(ctx.getSource().getServer());
         ctx.getSource().sendSuccess(() -> Component.literal("所有 EUN 配置文件已重新加载"), true);
         return 1;
     }

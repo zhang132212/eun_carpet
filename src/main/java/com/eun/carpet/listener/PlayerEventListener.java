@@ -1,5 +1,6 @@
 package com.eun.carpet.listener;
 
+import com.eun.carpet.commandgui.ServerCommandConfigManager;
 import com.eun.carpet.fakeplayer.FakePlayerManager;
 import com.eun.carpet.highlight.HighlightManager;
 import com.eun.carpet.optimization.HideEntitiesPayload;
@@ -51,6 +52,9 @@ public class PlayerEventListener {
                 ServerPlayNetworking.send(player, payload);
             }
         }
+
+        // 发送 command-gui 服务端预设指令给客户端
+        ServerCommandConfigManager.sendToPlayer(player);
 
         playerDimensions.put(player.getUUID(), player.level().dimension());
     }
