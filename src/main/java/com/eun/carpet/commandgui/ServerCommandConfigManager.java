@@ -69,9 +69,9 @@ public class ServerCommandConfigManager {
 		try {
 			Files.createDirectories(configPath.getParent());
 
-			EntryDto tp = new EntryDto("切换旁观", List.of("/!!s"), "切换到旁观模式（再次执行切换回原模式）");
-			EntryDto time = new EntryDto("我在这", List.of("/!!!here"), "高亮自己");
-			GroupDto exampleGroup = new GroupDto("实用工具", List.of(tp, time));
+			EntryDto spectator = new EntryDto("切换旁观", List.of("/!!s"), "切换到旁观模式（再次执行切换回原模式）");
+			EntryDto here = new EntryDto("我在这", List.of("/!!!here"), "高亮自己");
+			GroupDto exampleGroup = new GroupDto("实用工具", List.of(spectator, here));
 
 			PresetFile defaultFile = new PresetFile(List.of(exampleGroup));
 			try (BufferedWriter writer = Files.newBufferedWriter(configPath)) {
