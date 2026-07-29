@@ -27,9 +27,6 @@ public class EUNCarpetSettings {
     @Rule(categories = {RuleCategory.FEATURE, EUN}, options = {"false", "true", "0", "1", "2", "3", "4"})
     public static String highlightEnabled = "true";
 
-    @Rule(categories = {RuleCategory.OPTIMIZATION, EUN})
-    public static boolean aiOptimizationEnabled = false;
-
     @Rule(categories = {RuleCategory.FEATURE, EUN})
     public static boolean craftableInvisibleItemFrames = false;
 

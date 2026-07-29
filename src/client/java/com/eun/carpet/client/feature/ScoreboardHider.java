@@ -26,12 +26,12 @@ public class ScoreboardHider {
             if (now - lastToggleTime > TOGGLE_COOLDOWN_MS) {
                 hidden = !hidden;
                 lastToggleTime = now;
-                client.player.displayClientMessage(
-                        Component.literal("计分板已" + (hidden ? "§c隐藏" : "§a显示") + "（10秒冷却）"), false);
+                client.player.sendSystemMessage(
+                        Component.literal("计分板已" + (hidden ? "§c隐藏" : "§a显示") + "（10秒冷却）"));
             } else {
                 long remaining = (TOGGLE_COOLDOWN_MS - (now - lastToggleTime)) / 1000;
-                client.player.displayClientMessage(
-                        Component.literal("§c冷却中，剩余 " + remaining + " 秒"), true);
+                client.player.sendOverlayMessage(
+                        Component.literal("§c冷却中，剩余 " + remaining + " 秒"));
             }
         }
     }

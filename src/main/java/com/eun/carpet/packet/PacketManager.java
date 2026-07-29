@@ -309,7 +309,7 @@ public class PacketManager {
         ItemContainerContents container = box.get(DataComponents.CONTAINER);
         if (container == null) return null;
         Item logType = null;
-        for (ItemStack inner : container.stream().toList()) {
+        for (ItemStack inner : container.allItemsCopyStream().toList()) {
             if (inner.isEmpty()) continue;
             if (!isLog(inner)) return null;
             if (logType == null) {
@@ -329,7 +329,7 @@ public class PacketManager {
         if (!isShulkerBox(box)) return false;
         ItemContainerContents container = box.get(DataComponents.CONTAINER);
         if (container == null) return false;
-        for (ItemStack inner : container.stream().toList()) {
+        for (ItemStack inner : container.allItemsCopyStream().toList()) {
             if (inner.isEmpty()) continue;
             if (!inner.is(Items.SHULKER_SHELL)) return false;
         }
@@ -343,7 +343,7 @@ public class PacketManager {
             if (!isShulkerBox(box)) continue;
             ItemContainerContents container = box.get(DataComponents.CONTAINER);
             if (container != null) {
-                for (ItemStack inner : container.stream().toList()) {
+                for (ItemStack inner : container.allItemsCopyStream().toList()) {
                     if (!inner.isEmpty()) sum += inner.getCount();
                 }
             }
@@ -368,7 +368,7 @@ public class PacketManager {
             ItemContainerContents container = box.get(DataComponents.CONTAINER);
             if (container == null) continue;
 
-            List<ItemStack> contents = container.stream().collect(Collectors.toList());
+            List<ItemStack> contents = container.allItemsCopyStream().collect(Collectors.toList());
             boolean boxChanged = false;
             for (int idx = 0; idx < contents.size() && remaining > 0; idx++) {
                 ItemStack inner = contents.get(idx);

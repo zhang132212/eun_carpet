@@ -20,10 +20,10 @@ public class EUNCarpetMod implements ModInitializer {
     public void onInitialize() {
         CarpetServer.manageExtension(new EUNCarpetExtension());
 
-        PayloadTypeRegistry.playS2C().register(HideEntitiesPayload.TYPE, HideEntitiesPayload.CODEC);
-        PayloadTypeRegistry.playS2C().register(GlobalScoreboardPayload.TYPE, GlobalScoreboardPayload.CODEC);
-        PayloadTypeRegistry.playS2C().register(HighlightPayload.TYPE, HighlightPayload.CODEC);
-        PayloadTypeRegistry.playS2C().register(ServerCommandPayload.TYPE, ServerCommandPayload.CODEC);
+        PayloadTypeRegistry.clientboundPlay().register(HideEntitiesPayload.TYPE, HideEntitiesPayload.CODEC);
+        PayloadTypeRegistry.clientboundPlay().register(GlobalScoreboardPayload.TYPE, GlobalScoreboardPayload.CODEC);
+        PayloadTypeRegistry.clientboundPlay().register(HighlightPayload.TYPE, HighlightPayload.CODEC);
+        PayloadTypeRegistry.clientboundPlay().register(ServerCommandPayload.TYPE, ServerCommandPayload.CODEC);
 
         //初始化珍珠炮管理器，确保配置目录和默认文件存在
         PearlCannonManager.getInstance();

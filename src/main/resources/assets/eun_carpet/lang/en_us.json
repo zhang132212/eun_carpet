@@ -20,9 +20,6 @@
   "carpet.rule.highlightEnabled.name": "Personal Highlight",
   "carpet.rule.highlightEnabled.desc": "Enable /eun highlight command to highlight items or mobs around a player.",
 
-  "carpet.rule.aiOptimizationEnabled.name": "Collision-less Stacked Entity AI Optimization",
-  "carpet.rule.aiOptimizationEnabled.desc": "Skip AI for stacked entities in collision-free environments (e.g. scaffolding/vines) to reduce MSPT. Details in ai_optimization.json.",
-
   "carpet.rule.craftableInvisibleItemFrames.name": "Craftable Invisible Item Frames",
   "carpet.rule.craftableInvisibleItemFrames.desc": "Craft 8 invisible item frames using 8 item frames + 1 amethyst shard.",
 

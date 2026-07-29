@@ -1,7 +1,6 @@
 package com.eun.carpet.config;
 
 import com.eun.carpet.EUNCarpetMod;
-import com.eun.carpet.aioptimization.AIOptimizationConfig;
 import com.eun.carpet.optimization.EntityOptimizationConfig;
 import com.eun.carpet.packet.PacketManager;
 import com.eun.carpet.pearlcannon.PearlCannonManager;
@@ -19,7 +18,6 @@ public class EUNConfigManager {
     public static void loadAllConfigs() {
         ensureDirectories();
         EntityOptimizationConfig.load();
-        AIOptimizationConfig.load();
         PearlCannonManager.getInstance().reload();
         PacketManager.load();
         PresetManager.load();  // 首次加载
@@ -28,12 +26,10 @@ public class EUNConfigManager {
 
     public static void reloadAllConfigs() {
         EntityOptimizationConfig.load();
-        AIOptimizationConfig.load();
         PearlCannonManager.getInstance().reload();
         PacketManager.load();
         PresetManager.reload(); // 重载预设
         EntityOptimizationConfig.notifyUpdated();
-        AIOptimizationConfig.notifyUpdated();
         LOGGER.info("All EUN configurations reloaded.");
     }
 

@@ -20,9 +20,6 @@
   "carpet.rule.highlightEnabled.name": "生物实体/掉落物高亮",
   "carpet.rule.highlightEnabled.desc": "启用 /eun highlight 命令，可为指定玩家高亮周围的物品或生物",
 
-  "carpet.rule.aiOptimizationEnabled.name": "无碰撞堆叠实体AI优化(效果不咋样)",
-  "carpet.rule.aiOptimizationEnabled.desc": "启用大量同位置同类型实体在无碰撞环境下的AI优化，详细参数见ai_optimization.json",
-
   "carpet.rule.craftableInvisibleItemFrames.name": "可合成隐形展示框",
   "carpet.rule.craftableInvisibleItemFrames.desc": "启用后，可用8个展示框+1个紫水晶合成8个隐形展示框",
 
