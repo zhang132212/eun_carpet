@@ -2,7 +2,6 @@ package com.eun.carpet;
 
 import carpet.CarpetExtension;
 import carpet.CarpetServer;
-import com.eun.carpet.aioptimization.AIOptimizationManager;
 import com.eun.carpet.command.EUNCommands;
 import com.eun.carpet.config.EUNConfigManager;
 import com.eun.carpet.fakeplayer.FakePlayerManager;
@@ -73,7 +72,6 @@ public class EUNCarpetExtension implements CarpetExtension {
         HighlightManager.init(server);
         PlayerEventListener.init(server);
         FakePlayerManager.init(server);
-        AIOptimizationManager.init(server);
         if (EUNCarpetSettings.craftableInvisibleItemFrames) {
             InvisibleFrameManager.getInstance().registerRecipe(server);
         }
@@ -96,7 +94,6 @@ public class EUNCarpetExtension implements CarpetExtension {
         GlobalScoreboardManager.getInstance().tick();
         PlayerEventListener.getInstance().tick(server);
         HighlightManager.getInstance().tick(server);
-        AIOptimizationManager.getInstance().tick();
         PacketManager.tick(server);
 
         boolean currentPrefix = EUNCarpetSettings.fakePlayerPrefix;

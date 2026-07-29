@@ -17,7 +17,6 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
-import net.minecraft.ChatFormatting;
 import net.minecraft.commands.CommandBuildContext;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
@@ -28,9 +27,28 @@ import net.minecraft.server.players.NameAndId;
 import net.minecraft.server.players.ServerOpListEntry;
 
 import java.util.List;
+import java.util.Map;
 
 public class EUNCommands {
     private static final SimpleCommandExceptionType NO_SUCH_SCHEME = new SimpleCommandExceptionType(Component.literal("不存在的方案名"));
+    private static final Map<String, Integer> HIGHLIGHT_COLORS = Map.ofEntries(
+            Map.entry("black", 0x000000),
+            Map.entry("dark_blue", 0x0000AA),
+            Map.entry("dark_green", 0x00AA00),
+            Map.entry("dark_aqua", 0x00AAAA),
+            Map.entry("dark_red", 0xAA0000),
+            Map.entry("dark_purple", 0xAA00AA),
+            Map.entry("gold", 0xFFAA00),
+            Map.entry("gray", 0xAAAAAA),
+            Map.entry("dark_gray", 0x555555),
+            Map.entry("blue", 0x5555FF),
+            Map.entry("green", 0x55FF55),
+            Map.entry("aqua", 0x55FFFF),
+            Map.entry("red", 0xFF5555),
+            Map.entry("light_purple", 0xFF55FF),
+            Map.entry("yellow", 0xFFFF55),
+            Map.entry("white", 0xFFFFFF)
+    );
 
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher, CommandBuildContext buildContext) {
         dispatcher.getRoot().getChildren().removeIf(node -> node.getName().equals("eun"));
@@ -119,9 +137,7 @@ public class EUNCommands {
                         .then(Commands.argument("target", EntityArgument.player())
                                 .then(Commands.argument("color", StringArgumentType.word())
                                         .suggests((ctx, builder) -> {
-                                            for (ChatFormatting cf : ChatFormatting.values()) {
-                                                if (cf.isColor()) builder.suggest(cf.getName());
-                                            }
+                                            HIGHLIGHT_COLORS.keySet().forEach(builder::suggest);
                                             return builder.buildFuture();
                                         })
                                         .then(Commands.argument("enabled", BoolArgumentType.bool())
@@ -135,14 +151,9 @@ public class EUNCommands {
                                                     String colorName = StringArgumentType.getString(ctx, "color");
                                                     boolean enabled = BoolArgumentType.getBool(ctx, "enabled");
 
-                                                    ChatFormatting color = ChatFormatting.getByName(colorName);
-                                                    if (color == null || !color.isColor()) {
-                                                        ctx.getSource().sendFailure(Component.literal("无效颜色，可用: " + String.join(", ", ChatFormatting.getNames(true, false))));
-                                                        return 0;
-                                                    }
-                                                    Integer colorValue = color.getColor();
+                                                    Integer colorValue = HIGHLIGHT_COLORS.get(colorName.toLowerCase(java.util.Locale.ROOT));
                                                     if (colorValue == null) {
-                                                        ctx.getSource().sendFailure(Component.literal("颜色值无效"));
+                                                        ctx.getSource().sendFailure(Component.literal("无效颜色，可用: " + String.join(", ", HIGHLIGHT_COLORS.keySet())));
                                                         return 0;
                                                     }
                                                     int argbColor = 0xFF000000 | colorValue;

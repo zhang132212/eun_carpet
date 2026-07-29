@@ -52,7 +52,6 @@ public class PresetConfig {
 
         Map<String, String> rules2 = new HashMap<>();
         rules2.put("entityOptimizationEnabled", "true");
-        rules2.put("aiOptimizationEnabled", "true");
         config.presets.add(new Preset("performance", "性能优化配置", rules2));
 
         return config;

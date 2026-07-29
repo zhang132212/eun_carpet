@@ -76,7 +76,7 @@ public class TotemAutoEquipMixin {
             if (containerStack.has(DataComponents.CONTAINER)) {
                 ItemContainerContents contents = containerStack.get(DataComponents.CONTAINER);
                 if (contents != null) {
-                    List<ItemStack> items = contents.stream().map(ItemStack::copy).toList();
+                    List<ItemStack> items = contents.allItemsCopyStream().toList();
                     for (int slot = 0; slot < items.size(); slot++) {
                         ItemStack item = items.get(slot);
                         if (item.is(Items.TOTEM_OF_UNDYING)) {

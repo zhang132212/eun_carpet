@@ -1,5 +1,5 @@
 plugins {
-	id 'net.fabricmc.fabric-loom-remap' version "${loom_version}"
+	id 'net.fabricmc.fabric-loom' version "${loom_version}"
 	id 'maven-publish'
 }
 
@@ -43,15 +43,13 @@ loom {
 
 dependencies {
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
-	mappings loom.officialMojangMappings()
-	modRuntimeOnly("me.djtheredstoner:DevAuth-fabric:1.2.2")
-	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
-	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
-	modClientImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
-	modImplementation files("libs/fabric-carpet-1.21.11-1.4.194+v251223.jar")
+	runtimeOnly("me.djtheredstoner:DevAuth-fabric:1.2.2")
+	implementation "net.fabricmc:fabric-loader:${project.loader_version}"
+	implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
+	implementation files("libs/fabric-carpet-26.2+v260616.jar")
 	implementation 'org.jetbrains:annotations:24.0.1'
 	compileOnly 'org.jetbrains:annotations:24.0.1'
-	modImplementation "me.shedaniel.cloth:cloth-config-fabric:11.1.118"
+	implementation "me.shedaniel.cloth:cloth-config-fabric:26.2.155"
 }
 
 processResources {
@@ -72,13 +70,13 @@ processResources {
 }
 
 tasks.withType(JavaCompile).configureEach {
-	it.options.release = 21
+	it.options.release = 25
 }
 
 java {
 	withSourcesJar()
-	sourceCompatibility = JavaVersion.VERSION_21
-	targetCompatibility = JavaVersion.VERSION_21
+	sourceCompatibility = JavaVersion.VERSION_25
+	targetCompatibility = JavaVersion.VERSION_25
 }
 
 jar {

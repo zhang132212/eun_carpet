@@ -9,10 +9,12 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.item.component.TypedEntityData;
 import net.minecraft.world.level.block.CrafterBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -213,7 +215,7 @@ public class InvisibleFrameManager {
         // 隐形组件
         CompoundTag entityTag = new CompoundTag();
         entityTag.putBoolean("Invisible", true);
-        TypedEntityData<EntityType<?>> data = TypedEntityData.of(EntityType.ITEM_FRAME, entityTag);
+        TypedEntityData<EntityType<?>> data = TypedEntityData.of(EntityTypes.ITEM_FRAME, entityTag);
         result.set(DataComponents.ENTITY_DATA, data);
 
         // 附魔光泽
@@ -223,11 +225,10 @@ public class InvisibleFrameManager {
         result.set(DataComponents.CUSTOM_NAME, Component.literal("隐形展示框"));
 
         return new ShapedRecipe(
-                "",
-                CraftingBookCategory.MISC,
+                new Recipe.CommonInfo(true),
+                new CraftingRecipe.CraftingBookInfo(CraftingBookCategory.MISC, ""),
                 pattern,
-                result,
-                true
+                ItemStackTemplate.fromNonEmptyStack(result)
         );
     }
 

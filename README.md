@@ -1,8 +1,8 @@
 # EUN Carpet Addition
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![Minecraft Version](https://img.shields.io/badge/Minecraft-1.21.11-blue.svg)](https://minecraft.net)
-[![Fabric API](https://img.shields.io/badge/Fabric%20API-0.141.3%2B1.21.11-yellow.svg)](https://fabricmc.net)
+[![Minecraft Version](https://img.shields.io/badge/Minecraft-26.2-blue.svg)](https://minecraft.net)
+[![Fabric API](https://img.shields.io/badge/Fabric%20API-0.156.0%2B26.2-yellow.svg)](https://fabricmc.net)
 
 **EUN Carpet Addition** 是一个基于 [Fabric Carpet](https://github.com/gnembon/fabric-carpet) 的扩展模组，为原版游戏添加了一系列实用功能，包括假人驻留与自动打包、实体渲染优化、个人高亮、珍珠炮编码工具、规则预设管理等。
 
@@ -11,9 +11,9 @@
 ## 📥 安装
 
 ### 前置模组
-- [Fabric Loader](https://fabricmc.net/use/) (≥0.18.4)
-- [Fabric API](https://modrinth.com/mod/fabric-api) (≥0.141.3+1.21.11)
-- [Carpet Mod](https://github.com/gnembon/fabric-carpet) (≥1.4.194)
+- [Fabric Loader](https://fabricmc.net/use/) (≥0.19.3)
+- [Fabric API](https://modrinth.com/mod/fabric-api) (≥0.156.0+26.2)
+- [Carpet Mod](https://github.com/gnembon/fabric-carpet) (26.2)
 
 ### 安装位置
 - **服务端**：必须安装本模组（所有功能均由服务端驱动）。
@@ -33,7 +33,6 @@
 | 假人驻留/动作保存 | ❌ 否 | 纯服务端逻辑，假人为普通玩家实体 |
 | 假人自动打包 | ❌ 否 | 服务端处理背包操作，无需客户端支持 |
 | 珍珠炮编码工具 | ❌ 否 | 纯命令计算，结果直接输出 |
-| 无碰撞堆叠实体 AI 优化 | ❌ 否 | 服务端 AI 跳过，客户端无感知 |
 | 可合成隐形展示框 | ❌ 否 | 服务端配方注册，客户端只需原版资源 |
 | 自动装备图腾 | ❌ 否 | 服务端检测并替换物品 |
 | 禁止下界荒地生成岩浆怪 | ❌ 否 | 服务端生成控制 |
@@ -52,7 +51,6 @@
 
 ### ⚡ 性能优化
 - **实体堆叠渲染优化**：大量同位置同类型实体只渲染部分，显著提高 FPS。（⚠️ 需客户端安装）
-- **无碰撞堆叠实体 AI 优化**：脚手架/藤蔓等环境下的堆叠实体仅保留一个运算 AI，降低 MSPT（功能尚在打磨，效果可能不理想）。
 
 ### 📦 实用工具
 - **个人高亮** (`/eun highlight`)：为指定玩家高亮周围的物品或生物。（⚠️ 需客户端安装）
@@ -72,7 +70,6 @@
 | 文件 | 说明 |
 |------|------|
 | `entity_optimization.json` | 实体渲染优化参数（最小堆叠数、保留公式、平滑因子等） |
-| `ai_optimization.json` | AI 优化参数（启用实体类型、检测间隔、移动阈值等） |
 | `packet/configs.json` | 假人自动打包配置（自动生成，无需手动编辑） |
 | `pearlCannon/*.json` | 珍珠炮编码方案（可自定义添加） |
 | `presets.json` | 规则预设配置（可通过命令管理） |
@@ -129,7 +126,6 @@
 | `pearlCannonEnabled` | `true` | 珍珠炮工具（支持权限等级） |
 | `globalScoreboardEnabled` | `false` | 全局计分板 |
 | `highlightEnabled` | `true` | 个人高亮（支持权限等级） |
-| `aiOptimizationEnabled` | `false` | AI 优化总开关（功能尚在打磨，效果可能不理想） |
 | `craftableInvisibleItemFrames` | `false` | 可合成隐形展示框 |
 | `autoTotemEquip` | `false` | 自动装备图腾 |
 | `suppressMagmaCubeInNetherWastes` | `false` | 禁止下界荒地生成岩浆怪 |
@@ -142,20 +138,23 @@
 ## 🛠️ 开发与构建
 
 ### 环境要求
-- JDK 21+
-- Gradle 9.2.1+
+- JDK 25+
+- Gradle 9.5.1+
 
 ### 构建步骤
 ```bash
 git clone https://github.com/zhang132212/eun_carpet.git
 cd eun_carpet
 ./gradlew build
+```
+
 构建产物位于 build/libs/。
 
-开发调试
+### 开发调试
+
 使用 IntelliJ IDEA 打开项目，等待 Gradle 同步完成后：
 
-双击 Gradle 面板中 fabric → runClient 运行客户端。
+双击 Gradle 面板中的 `fabric -> runClient` 运行客户端。
 
 首次运行后会自动生成 Minecraft Client 运行配置，可在 VM options 中添加开发账号参数：
--Dfabric.development.username=你的邮箱 -Dfabric.development.lang=zh_cn
+`-Dfabric.development.username=你的邮箱 -Dfabric.development.lang=zh_cn`
