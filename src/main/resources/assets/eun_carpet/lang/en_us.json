@@ -23,6 +23,9 @@
   "carpet.rule.craftableInvisibleItemFrames.name": "Craftable Invisible Item Frames",
   "carpet.rule.craftableInvisibleItemFrames.desc": "Craft 8 invisible item frames using 8 item frames + 1 amethyst shard.",
 
+  "carpet.rule.craftablePlayerHeads.name": "Craftable Player Heads",
+  "carpet.rule.craftablePlayerHeads.desc": "Craft player heads using a named name tag + wither skeleton skulls (1 skull = 1 head, 8 skulls = 8 heads; valid premium player name yields that player's head, otherwise a Steve head).",
+
   "carpet.rule.autoTotemEquip.name": "Auto Totem Equip",
   "carpet.rule.autoTotemEquip.desc": "Automatically equip a Totem of Undying from inventory/containers when about to die.",
 

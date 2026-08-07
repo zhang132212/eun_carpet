@@ -4,7 +4,6 @@ import com.eun.carpet.EUNCarpetSettings;
 import com.eun.carpet.commandgui.ServerCommandConfigManager;
 import com.eun.carpet.config.EUNConfigManager;
 import com.eun.carpet.highlight.HighlightManager;
-import com.eun.carpet.highlight.HighlightPayload;
 import com.eun.carpet.pearlcannon.PearlCannonManager;
 import com.eun.carpet.pearlcannon.PearlCannonScheme;
 import com.eun.carpet.packet.PacketCommand;
@@ -125,7 +124,7 @@ public class EUNCommands {
         return Commands.literal("highlight")
                 .requires(source -> checkPermission(source, ruleValue))
                 .executes(ctx -> {
-                    ctx.getSource().sendFailure(Component.literal("用法: /eun highlight <item|entity> <玩家> <颜色> <true|false>"));
+                    ctx.getSource().sendFailure(Component.literal("用法: /eun highlight <item|entity> <true|false>"));
                     return 0;
                 })
                 .then(Commands.argument("type", StringArgumentType.word())
@@ -134,52 +133,33 @@ public class EUNCommands {
                             builder.suggest("entity");
                             return builder.buildFuture();
                         })
-                        .then(Commands.argument("target", EntityArgument.player())
-                                .then(Commands.argument("color", StringArgumentType.word())
-                                        .suggests((ctx, builder) -> {
-                                            HIGHLIGHT_COLORS.keySet().forEach(builder::suggest);
-                                            return builder.buildFuture();
-                                        })
-                                        .then(Commands.argument("enabled", BoolArgumentType.bool())
-                                                .executes(ctx -> {
-                                                    if (EUNCarpetSettings.highlightEnabled.equals("false")) {
-                                                        ctx.getSource().sendFailure(Component.literal("高亮功能已禁用"));
-                                                        return 0;
-                                                    }
-                                                    String type = StringArgumentType.getString(ctx, "type");
-                                                    ServerPlayer target = EntityArgument.getPlayer(ctx, "target");
-                                                    String colorName = StringArgumentType.getString(ctx, "color");
-                                                    boolean enabled = BoolArgumentType.getBool(ctx, "enabled");
+                        .then(Commands.argument("enabled", BoolArgumentType.bool())
+                                .executes(ctx -> {
+                                    if (EUNCarpetSettings.highlightEnabled.equals("false")) {
+                                        ctx.getSource().sendFailure(Component.literal("高亮功能已禁用"));
+                                        return 0;
+                                    }
+                                    String type = StringArgumentType.getString(ctx, "type");
+                                    boolean enabled = BoolArgumentType.getBool(ctx, "enabled");
 
-                                                    Integer colorValue = HIGHLIGHT_COLORS.get(colorName.toLowerCase(java.util.Locale.ROOT));
-                                                    if (colorValue == null) {
-                                                        ctx.getSource().sendFailure(Component.literal("无效颜色，可用: " + String.join(", ", HIGHLIGHT_COLORS.keySet())));
-                                                        return 0;
-                                                    }
-                                                    int argbColor = 0xFF000000 | colorValue;
+                                    HighlightManager mgr = HighlightManager.getInstance();
+                                    boolean items = mgr.isHighlightItems();
+                                    boolean entities = mgr.isHighlightEntities();
+                                    if (type.equalsIgnoreCase("item")) {
+                                        items = enabled;
+                                    } else if (type.equalsIgnoreCase("entity")) {
+                                        entities = enabled;
+                                    } else {
+                                        ctx.getSource().sendFailure(Component.literal("类型必须是 item 或 entity"));
+                                        return 0;
+                                    }
+                                    mgr.setGlobal(items, entities);
 
-                                                    HighlightManager.HighlightSettings settings = HighlightManager.getInstance().getPlayerSettings(target.getUUID());
-                                                    if (settings == null) settings = new HighlightManager.HighlightSettings();
-                                                    if (type.equalsIgnoreCase("item")) {
-                                                        settings.items = enabled;
-                                                        settings.itemColor = argbColor;
-                                                    } else if (type.equalsIgnoreCase("entity")) {
-                                                        settings.entities = enabled;
-                                                        settings.entityColor = argbColor;
-                                                    } else {
-                                                        ctx.getSource().sendFailure(Component.literal("类型必须是 item 或 entity"));
-                                                        return 0;
-                                                    }
-                                                    HighlightManager.getInstance().setPlayerSettings(target.getUUID(), settings.items, settings.entities, settings.itemColor, settings.entityColor);
-
-                                                    HighlightPayload payload = new HighlightPayload(settings.items, settings.entities, settings.itemColor, settings.entityColor);
-                                                    net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking.send(target, payload);
-
-                                                    ctx.getSource().sendSuccess(() -> Component.literal("已为玩家 " + target.getName().getString() + " 设置 " + type + " 高亮: " + enabled + " 颜色: " + colorName), true);
-                                                    return 1;
-                                                })
-                                        )
-                                )
+                                    final boolean fItems = items;
+                                    final boolean fEntities = entities;
+                                    ctx.getSource().sendSuccess(() -> Component.literal("全局高亮已设置: item=" + fItems + " entity=" + fEntities), true);
+                                    return 1;
+                                })
                         )
                 );
     }

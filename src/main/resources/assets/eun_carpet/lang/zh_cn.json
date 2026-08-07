@@ -23,6 +23,9 @@
   "carpet.rule.craftableInvisibleItemFrames.name": "可合成隐形展示框",
   "carpet.rule.craftableInvisibleItemFrames.desc": "启用后，可用8个展示框+1个紫水晶合成8个隐形展示框",
 
+  "carpet.rule.craftablePlayerHeads.name": "可合成玩家头颅",
+  "carpet.rule.craftablePlayerHeads.desc": "启用后，可用已命名的命名牌+凋零骷髅头合成玩家头颅（1个凋零骷髅头合成1个，8个合成8个；命名牌名字对应正版玩家则合成该玩家头颅，否则为史蒂夫头颅）",
+
   "carpet.rule.autoTotemEquip.name": "自动装备图腾",
   "carpet.rule.autoTotemEquip.desc": "当玩家即将死亡时，自动从背包或容器中取出不死图腾并装备到副手",
 

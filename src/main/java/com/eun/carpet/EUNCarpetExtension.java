@@ -10,6 +10,7 @@ import com.eun.carpet.listener.PlayerEventListener;
 import com.eun.carpet.optimization.EntityOptimizationManager;
 import com.eun.carpet.packet.PacketManager;
 import com.eun.carpet.recipe.InvisibleFrameManager;
+import com.eun.carpet.recipe.PlayerHeadManager;
 import com.eun.carpet.scoreboard.GlobalScoreboardManager;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -39,6 +40,7 @@ public class EUNCarpetExtension implements CarpetExtension {
     private String lastHighlightEnabled = EUNCarpetSettings.highlightEnabled;
     private String lastPacketEnabled = EUNCarpetSettings.packetEnabled;
     private boolean lastCraftableInvisibleItemFrames = EUNCarpetSettings.craftableInvisibleItemFrames;
+    private boolean lastCraftablePlayerHeads = EUNCarpetSettings.craftablePlayerHeads;
     private boolean lastFakePlayerPrefix = EUNCarpetSettings.fakePlayerPrefix;
 
     private CommandDispatcher<CommandSourceStack> cachedDispatcher;
@@ -74,6 +76,9 @@ public class EUNCarpetExtension implements CarpetExtension {
         FakePlayerManager.init(server);
         if (EUNCarpetSettings.craftableInvisibleItemFrames) {
             InvisibleFrameManager.getInstance().registerRecipe(server);
+        }
+        if (EUNCarpetSettings.craftablePlayerHeads) {
+            PlayerHeadManager.getInstance().registerRecipe(server);
         }
     }
 
@@ -113,6 +118,16 @@ public class EUNCarpetExtension implements CarpetExtension {
                 InvisibleFrameManager.getInstance().registerRecipe(server);
             } else {
                 InvisibleFrameManager.getInstance().unregisterRecipe(server);
+            }
+        }
+
+        boolean currentHeads = EUNCarpetSettings.craftablePlayerHeads;
+        if (lastCraftablePlayerHeads != currentHeads) {
+            lastCraftablePlayerHeads = currentHeads;
+            if (currentHeads) {
+                PlayerHeadManager.getInstance().registerRecipe(server);
+            } else {
+                PlayerHeadManager.getInstance().unregisterRecipe(server);
             }
         }
 

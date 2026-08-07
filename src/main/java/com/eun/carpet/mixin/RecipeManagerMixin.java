@@ -1,6 +1,7 @@
 package com.eun.carpet.mixin;
 
 import com.eun.carpet.recipe.InvisibleFrameManager;
+import com.eun.carpet.recipe.PlayerHeadManager;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeInput;
@@ -39,6 +40,14 @@ public class RecipeManagerMixin {
             if (holder.id().identifier().equals(InvisibleFrameManager.RECIPE_ID)) {
                 if (input instanceof CrafterBlockEntity) {
                     LOGGER.info("Blocked invisible frame recipe for crafter at {}", ((CrafterBlockEntity) input).getBlockPos());
+                    cir.setReturnValue(Optional.empty());
+                }
+            }
+            // 玩家头颅配方禁止合成器自动合成(命名牌+头 会被高频触发网络解析, 卡服风险)
+            if (holder.id().identifier().equals(PlayerHeadManager.RECIPE_ID)
+                    || holder.id().identifier().equals(PlayerHeadManager.RECIPE_ID_X8)) {
+                if (input instanceof CrafterBlockEntity) {
+                    LOGGER.info("Blocked player head recipe for crafter at {}", ((CrafterBlockEntity) input).getBlockPos());
                     cir.setReturnValue(Optional.empty());
                 }
             }

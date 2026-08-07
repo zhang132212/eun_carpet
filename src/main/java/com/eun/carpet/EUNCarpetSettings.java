@@ -31,6 +31,9 @@ public class EUNCarpetSettings {
     public static boolean craftableInvisibleItemFrames = false;
 
     @Rule(categories = {RuleCategory.FEATURE, EUN})
+    public static boolean craftablePlayerHeads = true;
+
+    @Rule(categories = {RuleCategory.FEATURE, EUN})
     public static boolean autoTotemEquip = false;
 
     @Rule(categories = {RuleCategory.FEATURE, EUN})
