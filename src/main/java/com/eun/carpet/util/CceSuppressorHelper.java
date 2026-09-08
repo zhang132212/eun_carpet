@@ -3,9 +3,14 @@ package com.eun.carpet.util;
 import carpet.CarpetServer;
 import carpet.api.settings.CarpetRule;
 import com.eun.carpet.EUNCarpetSettings;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.ShulkerBoxBlock;
 
 /**
- * 判断一个容器显示名是否是 CCE 更新抑制器潜影盒使用的名称。
+ * 判断一个容器/物品是否属于 CCE 更新抑制器潜影盒。
  *
  * <p>如果服务端安装了 Carpet Org Addition，则优先读取它的
  * {@code CCEUpdateSuppression} 规则，并保持与 Carpet Org Addition 完全一致
@@ -20,7 +25,7 @@ public final class CceSuppressorHelper {
 
     /**
      * @param displayName 容器/潜影盒的显示名
-     * @return 是否应被视为 CCE 更新抑制器
+     * @return 是否应被视为 CCE 更新抑制器名称
      */
     public static boolean isSuppressorName(String displayName) {
         if (displayName == null || !EUNCarpetSettings.preventCceShulkerOpen) {
@@ -33,6 +38,47 @@ public final class CceSuppressorHelper {
         }
 
         return matchesFallbackNames(displayName);
+    }
+
+    /**
+     * 判断一个物品是否是“带有更新抑制器名称的任意颜色潜影盒”。
+     *
+     * <p>只有已命名的潜影盒才会命中；未命名的普通潜影盒不会受到影响。</p>
+     *
+     * @param stack 待检查物品
+     * @return 是否为 CCE 更新抑制器潜影盒
+     */
+    public static boolean isSuppressorStack(ItemStack stack) {
+        if (stack == null || stack.isEmpty()) {
+            return false;
+        }
+        if (!(stack.getItem() instanceof BlockItem blockItem)) {
+            return false;
+        }
+        if (!(blockItem.getBlock() instanceof ShulkerBoxBlock)) {
+            return false;
+        }
+        return isSuppressorName(stack.getHoverName().getString());
+    }
+
+    /**
+     * 在玩家物品栏中查找与给定显示名匹配的 CCE 抑制器潜影盒。
+     *
+     * <p>Quick Shulker 等模组打开的是物品栏里的潜影盒物品，而不是方块实体，
+     * 所以需要在玩家物品栏中做一次精确匹配，避免误伤其它未命名潜影盒。</p>
+     */
+    public static boolean inventoryContainsSuppressorWithName(Player player, String displayName) {
+        if (player == null || displayName == null) {
+            return false;
+        }
+        Inventory inventory = player.getInventory();
+        for (int i = 0; i < inventory.getContainerSize(); i++) {
+            ItemStack stack = inventory.getItem(i);
+            if (isSuppressorStack(stack) && displayName.equals(stack.getHoverName().getString())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**

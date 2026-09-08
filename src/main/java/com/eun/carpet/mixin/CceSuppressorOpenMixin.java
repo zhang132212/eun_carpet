@@ -5,9 +5,12 @@ import com.eun.carpet.util.CceSuppressorHelper;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.MenuProvider;
+import net.minecraft.world.Nameable;
+import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.vehicle.ContainerEntity;
 import net.minecraft.world.level.block.entity.ShulkerBoxBlockEntity;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
@@ -15,19 +18,16 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import java.util.OptionalInt;
 
 /**
- * 阻止玩家打开被用作 CCE 更新抑制器的潜影盒。
+ * 阻止玩家打开“带有更新抑制器名称的任意颜色潜影盒”。
  *
- * <p>CCE 更新抑制器通过“命名潜影盒 + 比较器读取”触发，玩家一旦能打开盒子，
- * 就可以利用它搬运物品、制造部分事务，最终可能导致刷物品。这里在
- * {@link ServerPlayer#openMenu(MenuProvider)} 入口统一拦截：</p>
+ * <p>只拦截 CCE 抑制器潜影盒，不会影响未命名的普通潜影盒。覆盖以下路径：</p>
  *
  * <ul>
  *     <li>放置后的潜影盒方块：{@link ShulkerBoxBlockEntity}</li>
- *     <li>Quick Shulker Boxes 等数据包/模组使用的容器实体：{@link ContainerEntity}
+ *     <li>Quick Shulker Boxes 数据包使用的容器实体：{@link ContainerEntity}
  *     （例如 chest minecart / chest boat）</li>
+ *     <li>Quick Shulker 模组等使用 {@link SimpleMenuProvider} 打开物品栏内潜影盒物品的路径</li>
  * </ul>
- *
- * <p>普通箱子、木桶等 {@code BaseContainerBlockEntity} 不受影响，避免误伤正常容器。</p>
  */
 @Mixin(ServerPlayer.class)
 public abstract class CceSuppressorOpenMixin {
@@ -45,20 +45,39 @@ public abstract class CceSuppressorOpenMixin {
             return;
         }
 
-        // 只拦截潜影盒方块和容器实体（chest minecart / chest boat 等）。
-        // 普通箱子、木桶、熔炉等 BaseContainerBlockEntity 不在这里处理。
-        if (!(provider instanceof ShulkerBoxBlockEntity) && !(provider instanceof ContainerEntity)) {
+        ServerPlayer player = (ServerPlayer) (Object) this;
+
+        // 1. 放置后的潜影盒方块 / 容器实体（Quick Shulker Boxes 数据包等）。
+        if (provider instanceof ShulkerBoxBlockEntity || provider instanceof ContainerEntity) {
+            // 未命名的普通潜影盒/容器不拦截。
+            if (provider instanceof Nameable nameable && !nameable.hasCustomName()) {
+                return;
+            }
+            Component displayName = provider.getDisplayName();
+            if (displayName == null || !CceSuppressorHelper.isSuppressorName(displayName.getString())) {
+                return;
+            }
+            this.eun$deny(player, cir);
             return;
         }
 
-        Component displayName = provider.getDisplayName();
-        if (displayName == null || !CceSuppressorHelper.isSuppressorName(displayName.getString())) {
-            return;
+        // 2. Quick Shulker 模组：使用 SimpleMenuProvider 打开物品栏里的潜影盒物品。
+        //    它不经过方块实体，也不经过 ContainerEntity，需要按“物品栏中是否有同名 CCE 盒”判断。
+        if (provider instanceof SimpleMenuProvider) {
+            Component displayName = provider.getDisplayName();
+            if (displayName == null || !CceSuppressorHelper.isSuppressorName(displayName.getString())) {
+                return;
+            }
+            if (!CceSuppressorHelper.inventoryContainsSuppressorWithName(player, displayName.getString())) {
+                return;
+            }
+            this.eun$deny(player, cir);
         }
+    }
 
+    @Unique
+    private void eun$deny(ServerPlayer player, CallbackInfoReturnable<OptionalInt> cir) {
         cir.setReturnValue(OptionalInt.empty());
-        ((ServerPlayer) (Object) this).sendOverlayMessage(
-                Component.translatable("eun_carpet.message.cce_suppressor_open_denied")
-        );
+        player.sendOverlayMessage(Component.translatable("eun_carpet.message.cce_suppressor_open_denied"));
     }
 }
