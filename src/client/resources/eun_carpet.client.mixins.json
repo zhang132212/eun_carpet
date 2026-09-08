@@ -4,9 +4,8 @@
   "compatibilityLevel": "JAVA_25",
   "client": [
     "EntityRenderDispatcherMixin",
-    "MixinScoreboardSidebar"
-
-
+    "MixinScoreboardSidebar",
+    "ClientCceSuppressorSlotClickMixin"
   ],
   "injectors": {
     "defaultRequire": 1
