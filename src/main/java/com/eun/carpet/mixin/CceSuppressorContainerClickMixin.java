@@ -7,6 +7,8 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerInput;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -20,6 +22,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
  */
 @Mixin(AbstractContainerMenu.class)
 public abstract class CceSuppressorContainerClickMixin {
+    private static final Logger LOGGER = LoggerFactory.getLogger("EUNCarpet|CCE");
 
     @Inject(
             method = "clicked(IILnet/minecraft/world/inventory/ContainerInput;Lnet/minecraft/world/entity/player/Player;)V",
@@ -33,14 +36,15 @@ public abstract class CceSuppressorContainerClickMixin {
             Player player,
             CallbackInfo ci
     ) {
-        if (!EUNCarpetSettings.preventCceShulkerOpen || input != ContainerInput.PICKUP || button != 1) {
+        if (input != ContainerInput.PICKUP || button != 1) {
             return;
         }
         AbstractContainerMenu menu = (AbstractContainerMenu) (Object) this;
-        if (!CceSuppressorHelper.isSuppressorStack(menu.getCarried())) {
+        if (!EUNCarpetSettings.preventCceShulkerOpen || !CceSuppressorHelper.isSuppressorStack(menu.getCarried())) {
             return;
         }
         ci.cancel();
+        LOGGER.info("[EUNCarpet] Blocked CCE bundle click: player={}, slot={}, button={}, input={}", player.getName().getString(), slotId, button, input);
         // 取消后强制同步一次菜单，避免客户端预测的装盒状态残留
         menu.broadcastFullState();
         if (player instanceof ServerPlayer serverPlayer) {

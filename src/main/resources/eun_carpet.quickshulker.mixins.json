@@ -4,7 +4,8 @@
   "package": "com.eun.carpet.mixin.compat.quickshulker",
   "compatibilityLevel": "JAVA_25",
   "mixins": [
-    "QuickShulkerUtilMixin"
+    "QuickShulkerUtilMixin",
+    "QuickShulkerBundleHelperMixin"
   ],
   "injectors": {
     "defaultRequire": 0
