@@ -60,6 +60,7 @@
 - **可合成隐形展示框**：8 个展示框 + 1 个紫水晶合成 8 个隐形展示框。
 - **自动装备图腾**：即将死亡时自动从背包/容器装备不死图腾。
 - **禁止下界荒地生成岩浆怪**：仅禁止自然生成，刷怪笼不受影响。
+- **阻止打开 CCE 更新抑制盒**：阻止玩家通过方块交互或 Quick Shulker Boxes 等容器实体打开用于 CCE 更新抑制的潜影盒，避免利用部分事务刷物品。安装 Carpet Org Addition 时自动读取其 `CCEUpdateSuppression` 规则。
 
 ---
 
@@ -129,6 +130,8 @@
 | `craftableInvisibleItemFrames` | `false` | 可合成隐形展示框 |
 | `autoTotemEquip` | `false` | 自动装备图腾 |
 | `suppressMagmaCubeInNetherWastes` | `false` | 禁止下界荒地生成岩浆怪 |
+| `preventCceShulkerOpen` | `true` | 阻止玩家打开 CCE 更新抑制器潜影盒（含 Quick Shulker Boxes 的容器实体） |
+| `cceSuppressorNames` | `"更新抑制器,updateSuppression"` | 未安装 Carpet Org Addition 时的回退名称列表，逗号分隔 |
 | `packetEnabled` | `true` | 假人自动打包（支持权限等级） |
 | `presetEnabled` | `true` | 规则预设管理（支持权限等级） |
 
