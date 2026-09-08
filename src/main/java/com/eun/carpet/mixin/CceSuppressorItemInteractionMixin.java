@@ -69,6 +69,7 @@ public abstract class CceSuppressorItemInteractionMixin {
             serverPlayer.sendOverlayMessage(
                     Component.translatable("eun_carpet.message.cce_suppressor_open_denied")
             );
+            serverPlayer.containerMenu.broadcastFullState();
         }
         return true;
     }

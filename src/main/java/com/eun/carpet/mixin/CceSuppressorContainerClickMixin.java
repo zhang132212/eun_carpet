@@ -41,6 +41,8 @@ public abstract class CceSuppressorContainerClickMixin {
             return;
         }
         ci.cancel();
+        // 取消后强制同步一次菜单，避免客户端预测的装盒状态残留
+        menu.broadcastFullState();
         if (player instanceof ServerPlayer serverPlayer) {
             serverPlayer.sendOverlayMessage(
                     Component.translatable("eun_carpet.message.cce_suppressor_open_denied")
