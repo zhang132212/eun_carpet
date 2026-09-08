@@ -1,0 +1,12 @@
+{
+  "required": false,
+  "minVersion": "0.8",
+  "package": "com.eun.carpet.mixin.compat.quickshulker",
+  "compatibilityLevel": "JAVA_25",
+  "mixins": [
+    "QuickShulkerUtilMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 0
+  }
+}
