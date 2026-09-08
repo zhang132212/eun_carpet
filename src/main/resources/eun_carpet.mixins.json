@@ -8,7 +8,8 @@
     "TotemAutoEquipMixin",
     "MagmaCubeSpawnMixin",
     "CceSuppressorOpenMixin",
-    "CceSuppressorItemInteractionMixin"
+    "CceSuppressorItemInteractionMixin",
+    "CceSuppressorContainerClickMixin"
   ],
   "injectors": {
     "defaultRequire": 1
