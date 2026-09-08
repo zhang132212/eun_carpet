@@ -137,6 +137,14 @@ public abstract class QuickShulkerBundleHelperMixin {
                     Component.translatable("eun_carpet.message.cce_suppressor_open_denied")
             );
             serverPlayer.containerMenu.broadcastFullState();
+            // 延迟一 tick 再同步一次：覆盖客户端拖拽预测在释放鼠标后残留的状态
+            if (serverPlayer.level().getServer() != null) {
+                serverPlayer.level().getServer().execute(() -> {
+                    if (!serverPlayer.hasDisconnected()) {
+                        serverPlayer.containerMenu.broadcastFullState();
+                    }
+                });
+            }
         }
     }
 }
