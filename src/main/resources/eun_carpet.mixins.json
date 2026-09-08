@@ -6,7 +6,8 @@
   "mixins": [
     "RecipeManagerMixin",
     "TotemAutoEquipMixin",
-    "MagmaCubeSpawnMixin"
+    "MagmaCubeSpawnMixin",
+    "CceSuppressorOpenMixin"
   ],
   "injectors": {
     "defaultRequire": 1

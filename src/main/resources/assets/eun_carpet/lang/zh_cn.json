@@ -47,5 +47,11 @@
   "carpet.rule.sharedCommandBlacklist.desc": "逗号分隔的命令关键词列表，禁止出现在共享命令中（例如 'op,ban,stop'）。",
 
   "carpet.rule.sharedCommandMaxLength.name": "共享命令最大长度",
-  "carpet.rule.sharedCommandMaxLength.desc": "共享命令中单条命令允许的最大字符数。"
+  "carpet.rule.sharedCommandMaxLength.desc": "共享命令中单条命令允许的最大字符数。",
+
+  "carpet.rule.preventCceShulkerOpen.name": "阻止打开CCE抑制盒",
+  "carpet.rule.preventCceShulkerOpen.desc": "阻止玩家打开被用作CCE更新抑制器的潜影盒（包括Quick Shulker Boxes等模组/数据包生成的容器实体），防止利用部分事务刷物品。若安装了Carpet Org Addition，将自动读取其CCEUpdateSuppression规则。",
+  "carpet.rule.cceSuppressorNames.name": "CCE抑制盒名称",
+  "carpet.rule.cceSuppressorNames.desc": "未安装Carpet Org Addition时使用的回退名称列表，逗号分隔。安装了Carpet Org Addition时以它的CCEUpdateSuppression规则为准。",
+  "eun_carpet.message.cce_suppressor_open_denied": "你不能打开用于更新抑制的潜影盒"
 }

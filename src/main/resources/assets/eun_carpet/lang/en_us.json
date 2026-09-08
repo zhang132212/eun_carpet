@@ -47,5 +47,11 @@
   "carpet.rule.sharedCommandBlacklist.desc": "Comma-separated list of command keywords that are forbidden in shared commands (e.g. 'op,ban,stop').",
 
   "carpet.rule.sharedCommandMaxLength.name": "Shared Command Max Length",
-  "carpet.rule.sharedCommandMaxLength.desc": "Maximum allowed length (in characters) for a single command line in a shared command."
+  "carpet.rule.sharedCommandMaxLength.desc": "Maximum allowed length (in characters) for a single command line in a shared command.",
+
+  "carpet.rule.preventCceShulkerOpen.name": "Prevent Opening CCE Suppressor Boxes",
+  "carpet.rule.preventCceShulkerOpen.desc": "Prevents players from opening shulker boxes used as CCE update suppressors, including container entities created by Quick Shulker Boxes. If Carpet Org Addition is installed, its CCEUpdateSuppression rule is used automatically.",
+  "carpet.rule.cceSuppressorNames.name": "CCE Suppressor Names",
+  "carpet.rule.cceSuppressorNames.desc": "Comma-separated fallback names used when Carpet Org Addition is not installed. When it is installed, its CCEUpdateSuppression rule takes precedence.",
+  "eun_carpet.message.cce_suppressor_open_denied": "You cannot open a shulker box used for update suppression"
 }

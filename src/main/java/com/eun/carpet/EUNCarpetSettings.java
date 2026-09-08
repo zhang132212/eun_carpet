@@ -36,6 +36,12 @@ public class EUNCarpetSettings {
     @Rule(categories = {RuleCategory.FEATURE, EUN})
     public static boolean suppressMagmaCubeInNetherWastes = false;
 
+    @Rule(categories = {RuleCategory.FEATURE, EUN})
+    public static boolean preventCceShulkerOpen = true;
+
+    @Rule(categories = {RuleCategory.FEATURE, EUN})
+    public static String cceSuppressorNames = "更新抑制器,updateSuppression";
+
     @Rule(categories = {RuleCategory.FEATURE, EUN}, options = {"false", "true", "0", "1", "2", "3", "4"})
     public static String packetEnabled = "true";
 
