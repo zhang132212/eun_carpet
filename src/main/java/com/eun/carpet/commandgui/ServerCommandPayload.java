@@ -5,6 +5,7 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.Identifier;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -52,8 +53,30 @@ public record ServerCommandPayload(List<ServerCommandConfigManager.GroupDto> gro
 
 		@Override
 		public ServerCommandPayload decode(FriendlyByteBuf buf) {
-			// 仅服务端发送，客户端无需解码
-			throw new UnsupportedOperationException("仅服务端发送");
+			// 客户端也需要能解码该数据包；否则装有 eun_carpet 的客户端会因解码失败断开连接
+			int groupCount = buf.readVarInt();
+			List<ServerCommandConfigManager.GroupDto> groups = new ArrayList<>(groupCount);
+			for (int i = 0; i < groupCount; i++) {
+				ServerCommandConfigManager.GroupDto group = new ServerCommandConfigManager.GroupDto();
+				group.name = buf.readUtf();
+				int entryCount = buf.readVarInt();
+				List<ServerCommandConfigManager.EntryDto> entries = new ArrayList<>(entryCount);
+				for (int j = 0; j < entryCount; j++) {
+					ServerCommandConfigManager.EntryDto entry = new ServerCommandConfigManager.EntryDto();
+					entry.name = buf.readUtf();
+					entry.description = buf.readUtf();
+					int commandCount = buf.readVarInt();
+					List<String> commands = new ArrayList<>(commandCount);
+					for (int k = 0; k < commandCount; k++) {
+						commands.add(buf.readUtf());
+					}
+					entry.commands = commands;
+					entries.add(entry);
+				}
+				group.commands = entries;
+				groups.add(group);
+			}
+			return new ServerCommandPayload(groups);
 		}
 	};
 
