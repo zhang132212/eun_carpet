@@ -12,6 +12,8 @@ import net.minecraft.world.inventory.ClickAction;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 
@@ -25,6 +27,7 @@ import org.spongepowered.asm.mixin.Unique;
  */
 @Mixin(Item.class)
 public abstract class CceSuppressorItemInteractionMixin {
+    private static final Logger LOGGER = LoggerFactory.getLogger("EUNCarpet|CCE");
 
     @WrapMethod(method = "overrideOtherStackedOnMe")
     private boolean eun$blockCceBundleOnMe(
@@ -65,6 +68,7 @@ public abstract class CceSuppressorItemInteractionMixin {
                 && !CceSuppressorHelper.isSuppressorStack(insertStack)) {
             return false;
         }
+        LOGGER.info("[EUNCarpet] Blocked CCE item interaction: player={}, host={}, insert={}", player.getName().getString(), hostStack.getHoverName().getString(), insertStack.getHoverName().getString());
         if (player instanceof ServerPlayer serverPlayer) {
             serverPlayer.sendOverlayMessage(
                     Component.translatable("eun_carpet.message.cce_suppressor_open_denied")
