@@ -64,6 +64,25 @@
 
 ---
 
+## 🛡️ CCE 更新抑制盒防护
+
+CCE 更新抑制器（命名为 `更新抑制器` / `updateSuppression` 的任意颜色潜影盒）原本可以被 Quick Shulker 等“开盒”功能打开，存在被用于物品复制或更新抑制滥用的风险。本模组在**服务端**增加开盒拦截：
+
+- 拦截 `ServerPlayer#openMenu` 中的 CCE `ShulkerBoxBlockEntity`、容器实体和 `SimpleMenuProvider`；
+- 兼容 Quick Shulker Boxes：拦截 `net.kyrptonaught.quickshulker.api.Util#openItem` 的 CCE 开盒路径（未安装 Quick Shulker 时自动跳过）；
+- 只影响“打开”动作，未命名潜影盒和普通潜影盒不受影响；
+- **不拦截收纳袋式塞入/取出**，也不阻止通过放置方块、比较器/邻居更新等方式触发 CCE 更新抑制；
+- 客户端无需安装本模组，纯服务端生效。
+
+| 规则 | 默认值 | 说明 |
+|------|--------|------|
+| `preventCceShulkerOpen` | `true` | 是否阻止打开 CCE 更新抑制盒（只拦截打开） |
+| `cceSuppressorNames` | `更新抑制器,updateSuppression` | 未安装 Carpet Org Addition 时的回退名称列表 |
+
+安装 Carpet Org Addition 时优先读取其 `CCEUpdateSuppression` 规则：规则为 `true` 时按默认名称识别，为字符串时按自定义名称识别。若需要彻底禁止 CCE 更新抑制，可将其设为 `false` 或使用其它服务器策略。
+
+---
+
 ## ⚙️ 配置
 
 模组的详细参数通过配置文件管理，位于 `config/eun_carpet/` 目录下。
@@ -130,7 +149,7 @@
 | `craftableInvisibleItemFrames` | `false` | 可合成隐形展示框 |
 | `autoTotemEquip` | `false` | 自动装备图腾 |
 | `suppressMagmaCubeInNetherWastes` | `false` | 禁止下界荒地生成岩浆怪 |
-| `preventCceShulkerOpen` | `true` | 阻止玩家打开 CCE 更新抑制器潜影盒（含 Quick Shulker Boxes 的容器实体） |
+| `preventCceShulkerOpen` | `true` | 阻止打开 CCE 更新抑制器潜影盒（只拦截打开；不拦截收纳袋式塞入/取出） |
 | `cceSuppressorNames` | `"更新抑制器,updateSuppression"` | 未安装 Carpet Org Addition 时的回退名称列表，逗号分隔 |
 | `packetEnabled` | `true` | 假人自动打包（支持权限等级） |
 | `presetEnabled` | `true` | 规则预设管理（支持权限等级） |
@@ -153,6 +172,14 @@ cd eun_carpet
 
 构建产物位于 build/libs/。
 
+### 部署到服务器
+
+1. 将 `build/libs/eun-carpet-1.0.0.jar` 放入服务端 `mods/` 目录。
+2. 服务端需安装 Fabric Loader、Fabric API、Carpet；Quick Shulker Boxes 为可选兼容项。
+3. 重启服务端，使用 `/carpet preventCceShulkerOpen true` 确认规则已开启。
+
+> EUN 测试服源码目录：`C:\Users\Administrator\Desktop\eun-carpet`，使用 JDK 25 执行 `./gradlew build --offline` 可复现构建产物。
+
 ### 开发调试
 
 使用 IntelliJ IDEA 打开项目，等待 Gradle 同步完成后：
@@ -161,3 +188,9 @@ cd eun_carpet
 
 首次运行后会自动生成 Minecraft Client 运行配置，可在 VM options 中添加开发账号参数：
 `-Dfabric.development.username=你的邮箱 -Dfabric.development.lang=zh_cn`
+
+---
+
+## 📄 许可证
+
+本项目基于 [MIT License](LICENSE) 开源。
