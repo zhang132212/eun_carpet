@@ -53,7 +53,7 @@
   "carpet.rule.sharedCommandMaxLength.desc": "Maximum allowed length (in characters) for a single command line in a shared command.",
 
   "carpet.rule.preventCceShulkerOpen.name": "Prevent Opening CCE Suppressor Boxes",
-  "carpet.rule.preventCceShulkerOpen.desc": "Prevents players from opening shulker boxes used as CCE update suppressors, including container entities created by Quick Shulker Boxes. If Carpet Org Addition is installed, its CCEUpdateSuppression rule is used automatically.",
+  "carpet.rule.preventCceShulkerOpen.desc": "Only blocks any-color shulker boxes named as CCE update suppressors; unnamed shulker boxes are unaffected. Covers placed blocks, Quick Shulker Boxes container entities, Quick Shulker inventory menus, and its bundle-style insert/extract operations. If Carpet Org Addition is installed, its CCEUpdateSuppression rule is used automatically.",
   "carpet.rule.cceSuppressorNames.name": "CCE Suppressor Names",
   "carpet.rule.cceSuppressorNames.desc": "Comma-separated fallback names used when Carpet Org Addition is not installed. When it is installed, its CCEUpdateSuppression rule takes precedence.",
   "eun_carpet.message.cce_suppressor_open_denied": "You cannot open a shulker box used for update suppression"

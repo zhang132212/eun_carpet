@@ -53,7 +53,7 @@
   "carpet.rule.sharedCommandMaxLength.desc": "共享命令中单条命令允许的最大字符数。",
 
   "carpet.rule.preventCceShulkerOpen.name": "阻止打开CCE抑制盒",
-  "carpet.rule.preventCceShulkerOpen.desc": "阻止玩家打开被用作CCE更新抑制器的潜影盒（包括Quick Shulker Boxes等模组/数据包生成的容器实体），防止利用部分事务刷物品。若安装了Carpet Org Addition，将自动读取其CCEUpdateSuppression规则。",
+  "carpet.rule.preventCceShulkerOpen.desc": "只拦截带有“更新抑制器”名称的任意颜色潜影盒，不影响未命名普通潜影盒。覆盖放置方块、Quick Shulker Boxes 的容器实体、Quick Shulker 物品栏菜单以及其收纳袋式塞入/取出操作。若安装了 Carpet Org Addition，将自动读取其 CCEUpdateSuppression 规则。",
   "carpet.rule.cceSuppressorNames.name": "CCE抑制盒名称",
   "carpet.rule.cceSuppressorNames.desc": "未安装Carpet Org Addition时使用的回退名称列表，逗号分隔。安装了Carpet Org Addition时以它的CCEUpdateSuppression规则为准。",
   "eun_carpet.message.cce_suppressor_open_denied": "你不能打开用于更新抑制的潜影盒"
