@@ -1,34 +1,38 @@
 {
-	"schemaVersion": 1,
-	"id": "eun_carpet",
-	"version": "${version}",
-	"name": "EUN Carpet Addition",
-	"description": "EUN's Carpet extension",
-	"authors": [],
-	"contact": {},
-	"license": "MIT",
-	"icon": "assets/eun_carpet/icon.png",
-	"environment": "*",
-	"entrypoints": {
-		"main": [
-			"com.eun.carpet.EUNCarpetMod"
-		],
-		"client": [
-			"com.eun.carpet.client.EUNCarpetClient"
-		]
-	},
-	"mixins": [
-		"eun_carpet.mixins.json",
-		{
-			"config": "eun_carpet.client.mixins.json",
-			"environment": "client"
-		}
-	],
-	"depends": {
-		"fabricloader": ">=${loader_version}",
-		"fabric-api": ">=${fabric_api_version}",
-		"minecraft": "~${minecraft_dependency}",
-		"java": ">=25",
-		"carpet": "*"
-	}
+  "schemaVersion": 1,
+  "id": "eun_carpet",
+  "version": "${version}",
+  "name": "EUN Carpet Addition",
+  "description": "EUN's Carpet extension",
+  "authors": [],
+  "contact": {},
+  "license": "MIT",
+  "icon": "assets/eun_carpet/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.eun.carpet.EUNCarpetMod"
+    ],
+    "client": [
+      "com.eun.carpet.client.EUNCarpetClient"
+    ]
+  },
+  "mixins": [
+    "eun_carpet.mixins.json",
+    {
+      "config": "eun_carpet.client.mixins.json",
+      "environment": "client"
+    },
+    {
+      "config": "eun_carpet.quickshulker.mixins.json",
+      "environment": "*"
+    }
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric-api": ">=${fabric_api_version}",
+    "minecraft": "~${minecraft_dependency}",
+    "java": ">=25",
+    "carpet": "*"
+  }
 }
