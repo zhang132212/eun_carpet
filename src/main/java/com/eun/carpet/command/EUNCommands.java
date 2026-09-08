@@ -20,11 +20,18 @@ import net.minecraft.commands.CommandBuildContext;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.players.NameAndId;
 import net.minecraft.server.players.ServerOpListEntry;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.component.ItemContainerContents;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Map;
 
@@ -79,8 +86,37 @@ public class EUNCommands {
             root.then(PresetCommand.build());
         }
 
+        root.then(Commands.literal("cceBundleTest")
+                .requires(source -> checkPermission(source, 2))
+                .executes(EUNCommands::executeCceBundleTest));
+
         dispatcher.register(root);
 
+    }
+
+    private static int executeCceBundleTest(CommandContext<CommandSourceStack> ctx) {
+        ServerPlayer player = ctx.getSource().getServer().getPlayerList().getPlayerByName("EunProbe");
+        if (player == null) {
+            ctx.getSource().sendFailure(Component.literal("EunProbe 不在线，先 /player EunProbe spawn"));
+            return 0;
+        }
+        ItemStack cce = new ItemStack(Items.SHULKER_BOX);
+        cce.set(DataComponents.CUSTOM_NAME, Component.literal("更新抑制器"));
+        ItemStack insert = new ItemStack(Items.STONE, 1);
+        boolean recognized = com.eun.carpet.util.CceSuppressorHelper.isSuppressorStack(cce);
+        String error = "none";
+        try {
+            Class<?> helper = Class.forName("net.kyrptonaught.quickshulker.util.BundleHelper");
+            Method method = helper.getMethod("bundleItemIntoStack", Player.class, ItemStack.class, ItemStack.class, CallbackInfoReturnable.class);
+            method.invoke(null, player, cce, insert, null);
+        } catch (Throwable throwable) {
+            error = throwable.toString();
+        }
+        ItemContainerContents contents = cce.get(DataComponents.CONTAINER);
+        boolean inserted = contents != null && contents.nonEmptyItemCopyStream().findAny().isPresent();
+        final String fError = error;
+        ctx.getSource().sendSuccess(() -> Component.literal("CCE bundle test: recognized=" + recognized + ", inserted=" + inserted + ", error=" + fError), false);
+        return 1;
     }
 
     private static int executeReloadAll(CommandContext<CommandSourceStack> ctx) {
