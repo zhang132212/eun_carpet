@@ -7,7 +7,8 @@
     "RecipeManagerMixin",
     "TotemAutoEquipMixin",
     "MagmaCubeSpawnMixin",
-    "CceSuppressorOpenMixin"
+    "CceSuppressorOpenMixin",
+    "PlayerShadowGuardMixin"
   ],
   "injectors": {
     "defaultRequire": 1
