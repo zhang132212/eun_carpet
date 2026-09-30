@@ -26,7 +26,6 @@ public class FakePlayerManager {
 
     private final Map<UUID, Integer> lastLogoutTick = new ConcurrentHashMap<>();
     private final Map<UUID, Integer> blacklist = new ConcurrentHashMap<>();
-    private final Map<UUID, FakePlayerActionSnapshot> lastSavedActionSnapshot = new ConcurrentHashMap<>();
 
     // 反射字段
     private static final Field actionPackActionsField;
@@ -126,28 +125,12 @@ public class FakePlayerManager {
                                 player.level().dimension()
                         );
                         FakePlayerPersistence.put(newData);
-                        FakePlayerData current = captureCurrentFakePlayerData(fakePlayer);
-                        lastSavedActionSnapshot.put(uuid, new FakePlayerActionSnapshot(
-                                current.isSneaking(),
-                                current.isSprinting(),
-                                current.getForward(),
-                                current.getStrafing(),
-                                current.getActions()
-                        ));
                     }
                 }));
             } else {
                 if (EUNCarpetSettings.fakePlayerActionSaving) {
                     restoreFakePlayerActions(fakePlayer, existingData);
                 }
-                FakePlayerData current = captureCurrentFakePlayerData(fakePlayer);
-                lastSavedActionSnapshot.put(uuid, new FakePlayerActionSnapshot(
-                        current.isSneaking(),
-                        current.isSprinting(),
-                        current.getForward(),
-                        current.getStrafing(),
-                        current.getActions()
-                ));
             }
         }
 
@@ -160,7 +143,6 @@ public class FakePlayerManager {
         if (!(player instanceof EntityPlayerMPFake)) return;
 
         UUID uuid = player.getUUID();
-        lastSavedActionSnapshot.remove(uuid);
 
         if (!EUNCarpetSettings.fakePlayerPersistence) return;
         if (server.isStopped()) return;
@@ -177,47 +159,27 @@ public class FakePlayerManager {
 
         // 每30秒保存一次假人动作
         if (server.getTickCount() % 600 == 0 && EUNCarpetSettings.fakePlayerActionSaving) {
-            for (ServerPlayer player : server.getPlayerList().getPlayers()) {
-                if (player instanceof EntityPlayerMPFake fakePlayer) {
-                    UUID uuid = fakePlayer.getUUID();
-                    FakePlayerData currentData = captureCurrentFakePlayerData(fakePlayer);
-                    FakePlayerActionSnapshot lastSnapshot = lastSavedActionSnapshot.get(uuid);
-                    if (lastSnapshot == null || !lastSnapshot.equals(currentData)) {
-                        FakePlayerData storedData = FakePlayerPersistence.get(uuid);
-                        if (storedData != null) {
-                            storedData.updateActionsFrom(currentData);
-                            FakePlayerPersistence.put(storedData);
-                        }
-                        lastSavedActionSnapshot.put(uuid, new FakePlayerActionSnapshot(
-                                currentData.isSneaking(),
-                                currentData.isSprinting(),
-                                currentData.getForward(),
-                                currentData.getStrafing(),
-                                currentData.getActions()
-                        ));
-                    }
-                }
-            }
+            saveCurrentFakePlayerActions(server);
         }
 
     }
 
     public void onServerClosed(MinecraftServer server) {
         if (EUNCarpetSettings.fakePlayerActionSaving) {
-            for (ServerPlayer player : server.getPlayerList().getPlayers()) {
-                if (player instanceof EntityPlayerMPFake fakePlayer) {
-                    FakePlayerData currentData = captureCurrentFakePlayerData(fakePlayer);
-                    FakePlayerData storedData = FakePlayerPersistence.get(fakePlayer.getUUID());
-                    if (storedData != null) {
-                        storedData.updateActionsFrom(currentData);
-                        FakePlayerPersistence.put(storedData);
-                    }
-                }
-            }
+            saveCurrentFakePlayerActions(server);
         }
         lastLogoutTick.clear();
         blacklist.clear();
-        lastSavedActionSnapshot.clear();
+    }
+
+    private void saveCurrentFakePlayerActions(MinecraftServer server) {
+        List<FakePlayerData> currentData = new ArrayList<>();
+        for (ServerPlayer player : server.getPlayerList().getPlayers()) {
+            if (player instanceof EntityPlayerMPFake fakePlayer) {
+                currentData.add(captureCurrentFakePlayerData(fakePlayer));
+            }
+        }
+        FakePlayerPersistence.updateActions(currentData);
     }
 
     // 假人前缀处理
@@ -340,26 +302,4 @@ public class FakePlayerManager {
         return data;
     }
 
-    // 内部快照类
-    private record FakePlayerActionSnapshot(boolean sneaking, boolean sprinting, float forward, float strafing,
-                                            List<FakePlayerData.SavedAction> actions) {
-        private FakePlayerActionSnapshot(boolean sneaking, boolean sprinting, float forward, float strafing,
-                                         List<FakePlayerData.SavedAction> actions) {
-            this.sneaking = sneaking;
-            this.sprinting = sprinting;
-            this.forward = forward;
-            this.strafing = strafing;
-            this.actions = actions != null ? new ArrayList<>(actions) : null;
-        }
-
-        public boolean equals(FakePlayerData data) {
-            if (sneaking != data.isSneaking()) return false;
-            if (sprinting != data.isSprinting()) return false;
-            if (Float.compare(forward, data.getForward()) != 0) return false;
-            if (Float.compare(strafing, data.getStrafing()) != 0) return false;
-            if (actions == null && data.getActions() == null) return true;
-            if (actions == null || data.getActions() == null) return false;
-            return actions.equals(data.getActions());
-        }
-    }
 }

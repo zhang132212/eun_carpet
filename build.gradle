@@ -41,6 +41,10 @@ loom {
 	}
 }
 
+configurations {
+	mockitoAgent
+}
+
 dependencies {
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
 	runtimeOnly("me.djtheredstoner:DevAuth-fabric:1.2.2")
@@ -50,6 +54,20 @@ dependencies {
 	implementation 'org.jetbrains:annotations:24.0.1'
 	compileOnly 'org.jetbrains:annotations:24.0.1'
 	implementation "me.shedaniel.cloth:cloth-config-fabric:26.2.155"
+	testImplementation platform('org.junit:junit-bom:5.12.2')
+	testImplementation 'org.junit.jupiter:junit-jupiter'
+	testImplementation 'org.mockito:mockito-core:5.18.0'
+	mockitoAgent('org.mockito:mockito-core:5.18.0') { transitive = false }
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+// Client state regressions run without launching a Minecraft client.
+sourceSets.test.compileClasspath += sourceSets.client.output + sourceSets.client.compileClasspath
+sourceSets.test.runtimeClasspath += sourceSets.client.output + sourceSets.client.runtimeClasspath
+
+tasks.named('test') {
+	useJUnitPlatform()
+	jvmArgs "-javaagent:${configurations.mockitoAgent.asPath}"
 }
 
 processResources {
