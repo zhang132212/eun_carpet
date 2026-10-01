@@ -67,6 +67,12 @@ public class HiddenEntityTracker {
             groups.computeIfAbsent(key, k -> new ArrayList<>()).add(entity);
         }
 
+        // Smoothing history is only useful while a group is eligible for hiding.
+        areaStates.keySet().removeIf(key -> {
+            List<Entity> entities = groups.get(key);
+            return entities == null || entities.size() <= config.getMinStackSize();
+        });
+
         IntSet newHiddenIds = new IntOpenHashSet();
         for (Map.Entry<BlockPosTypeKey, List<Entity>> entry : groups.entrySet()) {
             BlockPosTypeKey key = entry.getKey();

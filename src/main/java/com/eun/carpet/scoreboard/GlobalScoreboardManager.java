@@ -124,6 +124,16 @@ public class GlobalScoreboardManager {
     }
 
     private void clearDisplay() {
-        server.getScoreboard().setDisplayObjective(DisplaySlot.SIDEBAR, null);
+        Scoreboard scoreboard = server.getScoreboard();
+        Objective displayed = scoreboard.getDisplayObjective(DisplaySlot.SIDEBAR);
+        if (displayed == null) return;
+
+        // Disabling our rotation must not erase a sidebar owned by another feature.
+        for (ScoreBoardType type : ScoreBoardType.values()) {
+            if (displayed.getName().equals(OBJECTIVE_PREFIX + type.name().toLowerCase(Locale.ROOT))) {
+                scoreboard.setDisplayObjective(DisplaySlot.SIDEBAR, null);
+                return;
+            }
+        }
     }
 }

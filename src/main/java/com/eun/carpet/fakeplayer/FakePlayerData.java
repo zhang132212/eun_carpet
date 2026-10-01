@@ -8,6 +8,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 public class FakePlayerData {
@@ -36,6 +37,14 @@ public class FakePlayerData {
         this.pitch = pitch;
         this.gameMode = gameMode.getName();
         this.dimension = dimension.identifier().toString(); // 存储为字符串
+    }
+
+    boolean hasSameActions(FakePlayerData other) {
+        return sneaking == other.sneaking
+                && sprinting == other.sprinting
+                && Float.compare(forward, other.forward) == 0
+                && Float.compare(strafing, other.strafing) == 0
+                && Objects.equals(actions, other.actions);
     }
 
     public void updateActionsFrom(FakePlayerData other) {
@@ -99,5 +108,21 @@ public class FakePlayerData {
         public int getInterval() { return interval; }
         public int getOffset() { return offset; }
         public boolean isContinuous() { return continuous; }
+
+        @Override
+        public boolean equals(Object other) {
+            if (this == other) return true;
+            if (!(other instanceof SavedAction action)) return false;
+            return limit == action.limit
+                    && interval == action.interval
+                    && offset == action.offset
+                    && continuous == action.continuous
+                    && Objects.equals(type, action.type);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(type, limit, interval, offset, continuous);
+        }
     }
 }

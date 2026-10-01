@@ -28,6 +28,7 @@ public class ClientTransparencyManager {
             }
             for (int id : removed) {
                 transparentIds.remove(id);
+                pendingTransparentIds.remove(id);
             }
         });
     }

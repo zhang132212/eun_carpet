@@ -107,8 +107,10 @@ public class PacketManager {
     }
 
     public static void tick(MinecraftServer server) {
+        if (CONFIGS.isEmpty()) return;
         int currentTick = server.getTickCount();
-        for (EntityPlayerMPFake fakePlayer : getFakePlayers(server)) {
+        for (var player : server.getPlayerList().getPlayers()) {
+            if (!(player instanceof EntityPlayerMPFake fakePlayer)) continue;
             UUID uuid = fakePlayer.getUUID();
             PacketConfig config = CONFIGS.get(uuid);
             if (config == null || !config.isEnabled()) continue;
@@ -125,13 +127,6 @@ public class PacketManager {
                 broadcastStateChange(server, fakePlayer.getName().getString(), result);
             }
         }
-    }
-
-    private static List<EntityPlayerMPFake> getFakePlayers(MinecraftServer server) {
-        return server.getPlayerList().getPlayers().stream()
-                .filter(p -> p instanceof EntityPlayerMPFake)
-                .map(p -> (EntityPlayerMPFake) p)
-                .collect(Collectors.toList());
     }
 
     private static PackResult tryPack(EntityPlayerMPFake fakePlayer, int type) {
@@ -249,17 +244,10 @@ public class PacketManager {
             ItemStack boxStack = inv.getItem(boxSlots.get(i));
             if (!boxStack.is(Items.SHULKER_BOX)) continue;
 
-            List<ItemStack> contents = new ArrayList<>();
-            long remaining = putCount;
-            while (remaining > 0) {
-                int stackSize = (int) Math.min(remaining, 64);
-                contents.add(new ItemStack(itemType, stackSize));
-                remaining -= stackSize;
-            }
-            ItemContainerContents container = ItemContainerContents.fromItems(contents);
-            boxStack.set(DataComponents.CONTAINER, container);
-
-            removeItemsFromInventory(inv, itemType, putCount);
+            // makeSpace may already have dropped some of the counted items.
+            // Populate the box only with items actually removed from the inventory.
+            List<ItemStack> contents = InventoryPacking.takeForBox(inv, itemType, putCount);
+            boxStack.set(DataComponents.CONTAINER, ItemContainerContents.fromItems(contents));
         }
 
         discardNonStackableNonBoxes(fakePlayer);
@@ -396,21 +384,6 @@ public class PacketManager {
             if (remaining == 0) break;
         }
         return remaining == 0;
-    }
-
-    private static void removeItemsFromInventory(Inventory inv, Item itemType, long amount) {
-        long toRemove = amount;
-        for (int i = 0; i < MAIN_SIZE; i++) {
-            if (toRemove <= 0) break;
-            ItemStack stack = inv.getItem(i);
-            if (stack.isEmpty() || !stack.is(itemType)) continue;
-            int remove = (int) Math.min(stack.getCount(), toRemove);
-            stack.shrink(remove);
-            toRemove -= remove;
-            if (stack.isEmpty()) {
-                inv.setItem(i, ItemStack.EMPTY);
-            }
-        }
     }
 
     private static boolean discardNonStackableNonBoxes(EntityPlayerMPFake fakePlayer) {

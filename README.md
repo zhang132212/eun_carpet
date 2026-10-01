@@ -172,6 +172,13 @@ cd eun_carpet
 
 构建产物位于 build/libs/。
 
+### 回归测试
+
+使用 JDK 25 执行 `./gradlew test`（`./gradlew build` 也会运行测试）。
+测试覆盖假人动作批量持久化、打包数量守恒与堆叠上限、实体隐藏状态、
+平滑缓存清理及计分板侧栏保护。测试使用 JUnit 5 和 Mockito，
+不启动游戏客户端或服务器；首次运行需要下载测试依赖。
+
 ### 部署到服务器
 
 1. 将 `build/libs/eun-carpet-1.0.0.jar` 放入服务端 `mods/` 目录。
